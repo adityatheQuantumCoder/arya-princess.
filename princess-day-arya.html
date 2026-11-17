@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Little Kingdom for Princess Arya</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg1:#14052e;--bg2:#5b21b6;--pink:#ec4899;--ink:#fff;--card:#fdf6ee;--cardink:#3b1f4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);font-family:Poppins,system-ui,sans-serif;overflow:hidden}
+#app{height:100%;position:relative}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;opacity:0;pointer-events:none;transition:opacity .7s;overflow-y:auto}
+.scene.on{opacity:1;pointer-events:auto}
+.scene.light{background:linear-gradient(180deg,#fbd5ea,#f08fd0)}
+h1,h2{font-family:'Dancing Script',cursive;margin:.3em 0;line-height:1.15}
+h1{font-size:2.2rem}h2{font-size:1.9rem}
+p{line-height:1.6;max-width:420px}
+.btn{background:linear-gradient(90deg,#f472b6,#db2777);color:#fff;border:0;border-radius:30px;padding:14px 26px;font:600 1rem Poppins,sans-serif;margin-top:18px;box-shadow:0 6px 20px #db277788;cursor:pointer}
+.btn:disabled{opacity:.45}
+.paper{background:var(--card);color:var(--cardink);border-radius:18px;padding:20px;max-width:420px;width:100%;font-family:'Dancing Script',cursive;font-size:1.35rem;line-height:1.5;text-align:left;box-shadow:0 10px 30px #0006}
+.glass{background:#ffffff1f;border:1px solid #ffffff55;border-radius:20px;padding:18px;max-width:420px;backdrop-filter:blur(6px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.chip{background:#fff;color:var(--cardink);border-radius:14px;padding:8px 12px;font-size:.85rem;font-weight:500}
+.castle{width:230px;max-width:70vw;animation:fl 4s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-10px)}}
+.env{font-size:5rem;cursor:pointer;animation:fl 2.5s ease-in-out infinite}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;width:100%;max-width:380px;margin-top:10px}
+.tc{perspective:600px;height:120px;cursor:pointer}
+.tc div{position:absolute;inset:0;border-radius:16px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;backface-visibility:hidden;transition:transform .6s;font-size:.85rem}
+.tc{position:relative}
+.tc .f{background:linear-gradient(160deg,#f9a8d4,#e879f9);color:#4a044e;font-family:'Dancing Script',cursive;font-size:1.3rem}
+.tc .b{background:var(--card);color:var(--cardink);transform:rotateY(180deg)}
+.tc.open .f{transform:rotateY(180deg)}.tc.open .b{transform:rotateY(360deg)}
+.gift{font-size:6rem;cursor:pointer;animation:fl 2s ease-in-out infinite}
+.fx{position:fixed;top:-30px;pointer-events:none;animation:fall linear forwards;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.cnt{font-size:.8rem;background:#ffffff22;border-radius:20px;padding:5px 14px;margin-top:12px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ===== EDIT HERE =====
+var NAME="Arya", FULL="Arya Mishra", FROM="Your Admirer";
+var CARDS=[["Your Smile","☀️","It can make an ordinary day feel beautiful."],
+["Your Eyes","✨","Write something sweet about her eyes here."],
+["Your Kindness","💖","The way you care makes everyone feel special."],
+["Your Personality","🎀","You are real, warm and totally one of a kind."],
+["Your Strength","🦋","You handle everything with so much grace."],
+["Your Little Habits","🧸","Even your tiny habits are my favourite things."]];
+var LETTER="Maybe I can’t give you a real castle, a thousand diamonds, or a crown made of gold. But I hope I can give you something even more precious: genuine care, countless reasons to smile, someone who listens to you, and little moments that make you feel special.\n\nYou deserve kindness on your difficult days, happiness in your ordinary moments, and love that never makes you feel like you have to be someone else.\n\nToday is Princess Day, but honestly, you deserve to feel special every single day.";
+var PROMISE=["I can’t promise that every day will be perfect, but I can promise to keep learning how to care for you better. I’ll celebrate your happiness, respect your feelings, cheer for your dreams, and remind you that you never have to be perfect to be precious.","You don’t need a crown to be a princess. You already deserve to be treated with kindness, respect, and genuine love."];
+// =====================
+var A=document.getElementById('app'),S=[],cur=0,opened=0;
+function sc(html,cls){var d=document.createElement('div');d.className='scene '+(cls||'');d.innerHTML=html;A.appendChild(d);S.push(d);return d}
+function go(i){S[cur].classList.remove('on');cur=i;S[i].classList.add('on');if(i==5)typeLetter();}
+function rain(chars,n){for(var i=0;i<n;i++){var e=document.createElement('div');e.className='fx';e.textContent=chars[i%chars.length];e.style.left=Math.random()*100+'vw';e.style.fontSize=(16+Math.random()*22)+'px';e.style.animationDuration=(3+Math.random()*3)+'s';document.body.appendChild(e);setTimeout(function(x){x.remove()},6500,e)}}
+var castle='<svg class="castle" viewBox="0 0 200 200"><circle cx="165" cy="25" r="12" fill="#fde68a"/><g fill="#d8b4fe"><rect x="30" y="90" width="40" height="90"/><rect x="130" y="90" width="40" height="90"/><rect x="70" y="60" width="60" height="120"/></g><g fill="#6366f1"><polygon points="30,90 50,45 70,90"/><polygon points="130,90 150,45 170,90"/><polygon points="70,60 100,10 130,60"/></g><path d="M88 180v-30a12 12 0 0 1 24 0v30z" fill="#7c3aed"/><g fill="#fde047"><circle cx="50" cy="115" r="6"/><circle cx="150" cy="115" r="6"/><circle cx="100" cy="85" r="7"/></g></svg>';
+
+sc('<div class="castle" style="font-size:0"></div>'+castle+'<div class="env" onclick="go(1);rain([\'✨\',\'💖\'],14)">💌</div><p>A royal letter has arrived for you…<br><small>Tap the envelope</small></p>').classList.add('on');
+sc('<div class="paper" style="text-align:center;font-size:1.3rem"><div style="font-size:2rem">👑</div><small style="font-family:Poppins;letter-spacing:3px">BY ROYAL INVITATION</small><br>By royal invitation, you are requested to enter a little world made especially for you. Your presence makes everything more magical.</div><button class="btn" onclick="go(2)">Step Into Your Kingdom ✨</button>');
+sc(castle+'<h1>Welcome to Your Little Kingdom, Princess '+NAME+' 💖</h1><div class="glass"><p style="margin:0">If I could create a whole kingdom for someone, I’d make it for you. A place where your smile lights up every corner, your happiness matters more than anything, and every little moment feels like a fairytale.</p></div><div class="chips"><span class="chip">Your Smile = My Sunshine</span><span class="chip">Your Happiness = My Wish</span><span class="chip">Your Presence = My Magic</span></div><button class="btn" onclick="go(3)">Take Me to the Next Surprise 💗</button>');
+var cs='<h2>Do You Know Why You’re So Special?</h2><small>Tap each royal card to reveal its little secret</small><div class="grid">';
+CARDS.forEach(function(c,i){cs+='<div class="tc" onclick="flip(this)"><div class="f"><span style="font-size:1.6rem">'+c[1]+'</span>'+c[0]+'<small style="font-family:Poppins;font-size:.7rem">tap to reveal ✨</small></div><div class="b"><b>'+c[0].toUpperCase()+'</b><br>'+c[2]+'</div></div>'});
+sc(cs+'</div><div class="cnt" id="cnt">0 of 6 royal secrets revealed</div><button class="btn" id="ub" disabled onclick="go(4)">Unlock My Royal Surprise 👑</button>');
+function flip(e){if(e.classList.contains('open'))return;e.classList.add('open');opened++;document.getElementById('cnt').textContent=opened+' of 6 royal secrets revealed';if(opened>=6)document.getElementById('ub').disabled=false}
+sc('<h1>Your Princess Day Gift Is Here! 🎁</h1><p>Ready to discover your little surprise?</p><div class="gift" onclick="rain([\'🎈\',\'🎀\',\'💖\',\'✨\'],24);setTimeout(function(){go(5)},1400)">🎁</div><small>Tap the gift</small>','light');
+sc('<h1>A Little Letter from '+FROM+' 💌</h1><div class="paper" id="lt" style="min-height:260px;font-size:1.2rem">Dear Princess '+NAME+',<br><br></div><button class="btn" id="mb" style="visibility:hidden" onclick="go(6)">There’s More, My Princess 💗</button>','light');
+var typed=false;
+function typeLetter(){if(typed)return;typed=true;var el=document.getElementById('lt'),t=LETTER,i=0,b='Dear Princess '+NAME+',<br><br>';var iv=setInterval(function(){i+=2;el.innerHTML=b+t.slice(0,i).replace(/\n/g,'<br>')+'|';if(i>=t.length){clearInterval(iv);el.innerHTML=b+t.replace(/\n/g,'<br>');document.getElementById('mb').style.visibility='visible'}},35)}
+sc('<h1>My Promise to You, Princess 👑</h1><div class="glass"><p>'+PROMISE[0]+'</p><p>'+PROMISE[1]+'</p></div><button class="btn" onclick="go(7);rain([\'💖\',\'✨\',\'🌸\'],30)">Receive Your Royal Hug 🤗</button>');
+sc('<div style="font-size:5rem">🤗</div><h1>Royal Hug Delivered!</h1><h2 style="font-size:1.5rem">You deserve all the happiness in the kingdom.</h2><p>Happy Princess Day, '+FULL+' 👑💖</p><button class="btn" onclick="opened=0;typed=false;go(0)">Back to the Kingdom 💗</button>');
+</script>
+</body>
+</html>
